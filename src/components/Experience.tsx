@@ -140,18 +140,18 @@ const Experience = () => {
           {experiences.map((exp, index) => (
             <div key={index} className="border-4 border-black p-8 bg-white relative">
               {exp.logo && (
-                <img 
+                <img
                   src={exp.logo}
                   alt={`${exp.company} logo`}
-                  className="absolute top-8 right-8 h-16 w-auto object-contain hover:grayscale-0 transition-all duration-300"
+                  className="absolute top-8 right-8 h-12 md:h-16 w-auto object-contain hover:grayscale-0 transition-all duration-300"
                 />
               )}
-              
-              <div className="pr-24">
+
+              <div className="pr-0 md:pr-24">
                 <div className="mb-6">
-                  <div className="flex items-center gap-4 mb-2">
-                    <h3 className="text-3xl font-black text-black">{exp.role}</h3>
-                    <span className={`px-4 py-1 text-white text-sm font-bold uppercase ${
+                  <div className="flex items-center gap-2 md:gap-4 mb-2 flex-wrap">
+                    <h3 className="text-2xl md:text-3xl font-black text-black">{exp.role}</h3>
+                    <span className={`px-3 md:px-4 py-1 text-white text-xs md:text-sm font-bold uppercase ${
                       exp.type === 'Product Management' ? 'bg-blue-600' :
                       exp.type === 'Engineering' ? 'bg-red-600' :
                       exp.type === 'Research' ? 'bg-yellow-600' :
