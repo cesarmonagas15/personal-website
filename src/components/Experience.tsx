@@ -12,7 +12,7 @@ const Experience = () => {
       role: "Claude Builder Ambassador",
       company: "Anthropic",
       location: "Austin, TX",
-      period: "August 2025 - Present",
+      period: "August 2025 - November 2025",
       type: "Growth & Adoption",
       description: "Leading campus community development and AI literacy initiatives to drive Claude adoption among university developers and researchers.",
       achievements: [
@@ -25,7 +25,7 @@ const Experience = () => {
       role: "Teaching Assistant",
       company: "University of Texas at Austin",
       location: "Austin, TX",
-      period: "August 2025 - Present",
+      period: "August 2025 - December 2025",
       type: "Education",
       description: "Supporting full-stack web development instruction, teaching React fundamentals and modern JavaScript frameworks to undergraduate students.",
       achievements: [

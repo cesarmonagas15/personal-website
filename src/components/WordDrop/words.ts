@@ -9,20 +9,20 @@ const spanishWords: string[] = [
   "cafe", "dulce", "amigo", "fiesta", "bailar", "camino", "cielo",
   "tierra", "sol", "luna", "rio", "mar", "chamo", "caracas", "zulia",
   "gocho", "carne", "pollo", "comida", "gracias", "vamos", "libre",
-  "grande", "verde", "rojo", "blanco"
+  "grande", "verde", "rojo", "amarillo"
 ];
 
 const techWords: string[] = [
   "typescript", "python", "react", "kubernetes", "claude", "vite",
-  "tailwind", "salesforce", "docker", "postgres", "graphql", "linux",
-  "terraform", "github", "nodejs", "redis", "swift", "rust", "java",
-  "firebase", "lambda", "grafana", "api", "deploy", "merge"
+  "tailwind", "salesforce", "docker", "postgres", "sql", "bash",
+  "grafana", "github", "nodejs", "python", "springboot", "aws", "java",
+  "firebase", "lambda", "prototyping", "api", "deploy", "merge"
 ];
 
 const personalWords: string[] = [
   "austin", "longhorns", "anthropic", "builder", "hookem", "deloitte",
-  "yahoo", "utah", "tennis", "volleyball", "venezuela", "texas",
-  "maracaibo", "coding", "hustle"
+  "yahoo", "venezuela", "tennis", "volleyball", "venezuela", "texas",
+  "running", "coding", "hustle", "internationalization"
 ];
 
 export const WORDS: WordEntry[] = [
