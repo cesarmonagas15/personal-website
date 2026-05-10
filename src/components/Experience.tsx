@@ -138,16 +138,16 @@ const Experience = () => {
 
         <div className="space-y-12">
           {experiences.map((exp, index) => (
-            <div key={index} className="border-4 border-black p-8 bg-white relative">
+            <div key={index} className="border-4 border-black p-4 sm:p-6 md:p-8 bg-white relative">
               {exp.logo && (
                 <img
                   src={exp.logo}
                   alt={`${exp.company} logo`}
-                  className="absolute top-8 right-8 h-12 md:h-16 w-auto object-contain hover:grayscale-0 transition-all duration-300"
+                  className="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 h-10 md:h-16 w-auto object-contain hover:grayscale-0 transition-all duration-300"
                 />
               )}
 
-              <div className="pr-0 md:pr-24">
+              <div className="pr-16 sm:pr-20 md:pr-28">
                 <div className="mb-6">
                   <div className="flex items-center gap-2 md:gap-4 mb-2 flex-wrap">
                     <h3 className="text-2xl md:text-3xl font-black text-black">{exp.role}</h3>
@@ -165,7 +165,7 @@ const Experience = () => {
                     </span>
                   </div>
                   <p className="text-2xl font-bold text-black mb-2">{exp.company}</p>
-                  <p className="text-lg font-medium text-gray-600">{exp.location} • {exp.period}</p>
+                  <p className="text-base md:text-lg font-medium text-gray-600 break-words">{exp.location} • {exp.period}</p>
                 </div>
 
                 <p className="text-lg text-black mb-8 leading-relaxed font-medium">

@@ -226,9 +226,9 @@ const Projects = () => {
                   </div>
                 )}
                 
-                <div className="p-8">
+                <div className="p-4 sm:p-6 md:p-8">
                   <div className="mb-6">
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                       <span className="px-4 py-1 bg-black text-white text-sm font-bold uppercase tracking-wide">
                         {project.category}
                       </span>

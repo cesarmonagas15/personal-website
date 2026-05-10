@@ -262,8 +262,8 @@ export default function WordDrop() {
         </div>
 
         {/* HUD */}
-        <div className="flex items-center justify-between mb-4 text-white font-bold text-lg">
-          <div className="flex gap-6">
+        <div className="flex items-center justify-between mb-4 text-white font-bold text-sm sm:text-lg">
+          <div className="flex gap-3 sm:gap-6">
             <span>SCORE: {score}</span>
             <span>BEST: {highScore}</span>
           </div>
@@ -316,7 +316,7 @@ export default function WordDrop() {
         />
 
         {/* Legend */}
-        <div className="flex gap-6 mt-4 text-sm font-bold">
+        <div className="flex flex-wrap gap-4 mt-4 text-sm font-bold">
           <span className="flex items-center gap-2">
             <span className="w-3 h-3 bg-yellow-400 inline-block"></span>
             <span className="text-gray-400">SPANISH</span>

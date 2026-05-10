@@ -7,11 +7,11 @@ const Hero = () => {
       <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-blue-600 to-red-600"></div>
       
       <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-8xl lg:text-9xl font-black text-black mb-8 leading-[0.8]">
+        <h1 className="text-6xl sm:text-8xl lg:text-9xl font-black text-black mb-8 leading-[0.8]">
           CÉSAR
         </h1>
-        
-        <p className="text-2xl lg:text-3xl text-black font-medium mb-4 max-w-3xl mx-auto leading-tight">
+
+        <p className="text-xl sm:text-2xl lg:text-3xl text-black font-medium mb-4 max-w-3xl mx-auto leading-tight">
           Wanna-be UN Ambassador → <span className="text-blue-600 font-black">Venezuelan</span> builder creating
           <span className="text-red-600 font-black"> AI tools</span> and
           <span className="text-yellow-600 font-black"> nonprofit tech</span>
