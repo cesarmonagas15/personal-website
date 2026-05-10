@@ -61,7 +61,7 @@ const Guestbook = () => {
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Form */}
-          <div className="border-4 border-black p-12">
+          <div className="border-4 border-black p-6 sm:p-8 md:p-12">
             <h3 className="text-3xl font-black text-black mb-8">
               LEAVE A MESSAGE
             </h3>

@@ -100,7 +100,7 @@ const About = () => {
 
         {/* Bottom Section: Bio Text */}
         <div className="max-w-5xl mx-auto">
-          <div className="border-4 border-white p-12">
+          <div className="border-4 border-white p-6 sm:p-8 md:p-12">
             <h3 className="text-3xl font-bold text-white mb-8">MY STORY</h3>
             
             <div className="grid lg:grid-cols-2 gap-12 text-white text-lg leading-relaxed">
