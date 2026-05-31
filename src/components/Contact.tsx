@@ -12,15 +12,15 @@ const Contact = () => {
 
         <div className="grid lg:grid-cols-2 gap-16">
           <div className="border-4 border-black p-6 sm:p-8 md:p-12">
-            <h3 className="text-3xl font-black text-black mb-8">LET'S WORK TOGETHER</h3>
+            <h3 className="text-3xl font-black text-black mb-8">LET'S CONNECT</h3>
             <p className="text-xl text-black font-medium mb-8 leading-relaxed">
-              I'm actively seeking full-time opportunities for 2026. With my unique combination 
-              of technical expertise and business acumen, I'm ready to help organizations navigate 
-              complex challenges and drive innovation.
+              Always open to conversations about AI, global payments, multilingual technology,
+              and where it's all heading. Whether you're building something interesting, thinking
+              about the same problems, or just want to connect — reach out.
             </p>
             <p className="text-lg text-black leading-relaxed">
-              Whether it's building products, optimizing processes, or leading strategic initiatives, 
-              I bring a collaborative approach and proven results.
+              Also happy to chat about the MBA journey, product management, or what it's like
+              building agentic infrastructure at global scale.
             </p>
           </div>
 
@@ -50,7 +50,7 @@ const Contact = () => {
 
         <div className="text-center mt-20 pt-12 border-t-4 border-black">
           <p className="text-black font-bold text-lg">
-            © 2025 CÉSAR MONAGAS ROMERO • BUILT WITH REACT & TAILWIND CSS
+            © 2026 CÉSAR MONAGAS ROMERO • BUILT WITH REACT & TAILWIND CSS
           </p>
         </div>
       </div>

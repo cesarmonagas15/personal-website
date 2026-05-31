@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import yahooProjectImg from '../assets/Creating the Foundation for Linguistic Equity copy.jpeg';
 import bakariFoundationImg from '../assets/bakari-foundation.jpeg';
 import canKitchenImg from '../assets/can-kitchen.jpg';
 
@@ -118,6 +119,23 @@ const SlideCarousel: React.FC<SlideCarouselProps> = ({ slides, title }) => {
 const Projects = () => {
   const projects = [
     {
+      title: "Yahoo Mail: Multilingual AI",
+      category: "AI/ML Product Management",
+      description: "Led product development of multilingual email classification for Spanish-speaking users — building AI for the 2M+ people who weren't the default.",
+      technologies: ["AI/ML Platform", "Product Management", "Multilingual NLP", "Email Infrastructure", "PRD"],
+      highlights: [
+        "Co-inventor on patent filed with the USPTO through Yahoo Holdings Inc.",
+        "Drove development reaching 700k+ users, generating $35k monthly revenue",
+        "Owned roadmap and PRDs for ML models processing 19M+ daily emails",
+        "Established go-to internationalization framework for Yahoo Mail's global expansion"
+      ],
+      color: "border-purple-500",
+      bgColor: "bg-purple-50",
+      period: "Summer 2025",
+      image: yahooProjectImg,
+      slides: []
+    },
+    {
       title: "Bakari Foundation CRM",
       category: "Solutions Architecture",
       description: "Built complete Salesforce CRM system for nonprofit, migrating 2k+ donor records with custom automation.",
@@ -208,10 +226,11 @@ const Projects = () => {
           {projects.map((project, index) => {
             // Define color schemes for each project
             const colorSchemes = [
-              'hover:border-green-500 hover:bg-green-50', // Bakari Foundation
+              'hover:border-purple-500 hover:bg-purple-50', // Yahoo Multilingual AI
+              'hover:border-green-500 hover:bg-green-50',   // Bakari Foundation
               'hover:border-purple-500 hover:bg-purple-50', // CAN Kitchen
-              'hover:border-blue-500 hover:bg-blue-50', // LA3S
-              'hover:border-orange-500 hover:bg-orange-50' // Salesforce Dashboard
+              'hover:border-blue-500 hover:bg-blue-50',     // LA3S
+              'hover:border-orange-500 hover:bg-orange-50'  // Salesforce Dashboard
             ];
             
             return (

@@ -12,9 +12,9 @@ const Hero = () => {
         </h1>
 
         <p className="text-xl sm:text-2xl lg:text-3xl text-black font-medium mb-4 max-w-3xl mx-auto leading-tight">
-          Wanna-be UN Ambassador → <span className="text-blue-600 font-black">Venezuelan</span> builder creating
-          <span className="text-red-600 font-black"> AI tools</span> and
-          <span className="text-yellow-600 font-black"> nonprofit tech</span>
+          Wanna-be UN Ambassador → <span className="text-blue-600 font-black">Venezuelan</span> PM architecting
+          <span className="text-red-600 font-black"> agentic AI</span> for
+          <span className="text-yellow-600 font-black"> global payments</span>
         </p>
 
         <div className="flex items-center justify-center gap-2 mb-16">
