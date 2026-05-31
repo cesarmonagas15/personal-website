@@ -1,3 +1,4 @@
+import visaLogo from '../assets/visa-logo.png';
 import salesforceLogo from '../assets/salesforce-logo.png';
 import yahooLogo from '../assets/yahoo-logo.png';
 import utAustinLogo from '../assets/ut-austin-logo.png';
@@ -8,6 +9,21 @@ import anthropicLogo from '../assets/anthropic.png';
 
 const Experience = () => {
   const experiences = [
+    {
+      role: "Associate Technical Product Manager",
+      company: "Visa",
+      location: "Denver, CO (Hybrid)",
+      period: "2026 – Present",
+      type: "Product Management",
+      description: "Architecting AI-native agentic workflows to modernize and scale global payments infrastructure within O&I Technology Management — at the intersection of Infrastructure and Data & AI Platform.",
+      achievements: [
+        "Building agentic infrastructure supporting $16.1T in annual payment volume across 200+ countries",
+        "Driving governance, observability, and operational readiness for large-scale platform programs",
+        "Part of the Visa Technology Associate Program (TPM Track) — O&I Technology Management"
+      ],
+      color: "bg-blue-100 text-blue-800 border-blue-200",
+      logo: visaLogo
+    },
     {
       role: "Claude Builder Ambassador",
       company: "Anthropic",
