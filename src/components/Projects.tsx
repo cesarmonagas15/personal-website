@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import yahooProjectImg from '../assets/Creating the Foundation for Linguistic Equity copy.jpeg';
 import bakariFoundationImg from '../assets/bakari-foundation.jpeg';
 import canKitchenImg from '../assets/can-kitchen.jpg';
+import launchplanImg from '../assets/launchplan.png';
+import astronautImg from '../assets/astronaut.png';
+import deloitteShowcaseImg from '../assets/deloitte-showcase.png';
 
 interface SlideCarouselProps {
   slides: string[];
@@ -206,9 +209,61 @@ const Projects = () => {
       bgColor: "bg-orange-50",
       period: "August 2024",
       slides: [
-        // Add your Google Slides embed URLs here
         "https://docs.google.com/presentation/d/e/2PACX-1vSZuOvieWFmlPwjXkmYOfcpdgHBtaiJGqSaC-jvtXiegY-69N3dDWmgIK0i2iny8rtLZbY5XgMb9R69/pubembed?start=false&loop=false&delayms=3000"
       ]
+    },
+    {
+      title: "Deloitte AI Advisory Showcase",
+      category: "AI Strategy & Prototyping",
+      description: "Three agentic workflow prototypes built with Claude Code, demonstrating how AI accelerates consulting work — from M&A tech due diligence to AI readiness assessments to program execution intelligence.",
+      technologies: ["Claude Code", "Agentic Workflows", "MCP Integration", "Chart.js", "AI Advisory"],
+      highlights: [
+        "TechScan: automated M&A tech due diligence — 847 repos analyzed, risk-ranked, and structured in hours not weeks",
+        "AI Compass: AI readiness assessment across 6 dimensions with peer benchmarking and a prioritized 18-month roadmap",
+        "ProgramPulse: execution intelligence layer unifying Jira, CMDB, and program data into a single blocker-detection view",
+        "Built with Claude Code as the agentic synthesis engine — human-in-the-loop throughout"
+      ],
+      color: "border-green-500",
+      bgColor: "bg-green-50",
+      period: "Summer 2026",
+      slides: [],
+      website: "/deloitte-showcase.html",
+      websiteLabel: "VIEW SHOWCASE",
+      image: deloitteShowcaseImg
+    },
+    {
+      title: "LaunchPlan — AI Execution OS",
+      category: "AI Product Engineering",
+      description: "Personal execution OS (React/TypeScript) that automates transformation of raw daily work logs into structured OKR evidence, stakeholder status updates, and annual review artifacts — using Claude Code as the AI synthesis layer.",
+      technologies: ["React", "TypeScript", "Claude Code", "OKR Systems", "AI Synthesis"],
+      highlights: [
+        "Solved the core failure mode in enterprise OKR systems: manual, episodic evidence capture",
+        "LLM-based continuous context aggregation maps unstructured work logs directly to key performance metrics",
+        "Designed, built, and shipped end-to-end in 8 weeks against a hard shipping target",
+        "Validates an enterprise product concept analogous to Lattice and Quantive — built from real PM pain"
+      ],
+      color: "border-indigo-500",
+      bgColor: "bg-indigo-50",
+      period: "Jun 2026 – Present",
+      slides: [],
+      image: launchplanImg
+    },
+    {
+      title: "Astronaut — Infrastructure Intelligence",
+      category: "Internal Product (Visa)",
+      description: "Agentic execution intelligence platform (React, Flask, MCP, TypeScript) built at Visa to support the migration of 64k+ VMs from VMware ESX to Red Hat OpenShift — collapsing ~40 minutes of manual cross-referencing into under 2 minutes per host lookup across a ~$50M infrastructure modernization initiative.",
+      technologies: ["React", "TypeScript", "Python Flask", "MCP", "Agentic Workflows"],
+      highlights: [
+        "Unified fragmented data from 6 disconnected systems into a single readiness score per host — supporting a $16.1T global payment network operating across 200+ countries",
+        "Designed HITL agentic workflows with hybrid rule-based + LLM classification to automate ticket triage and route blocked decommission steps to named technical owners",
+        "Defined a taxonomy for recurring migration blockers with automated escalation paths — resolving ownership gaps that were stalling active decommission work",
+        "Owned cross-functional OKRs for the 64k+ VM migration; architected Astronaut as a read-only System of Understanding feeding governed reporting platforms"
+      ],
+      color: "border-violet-500",
+      bgColor: "bg-violet-50",
+      period: "2026 – Present",
+      slides: [],
+      image: astronautImg
     }
   ];
 
@@ -230,7 +285,10 @@ const Projects = () => {
               'hover:border-green-500 hover:bg-green-50',   // Bakari Foundation
               'hover:border-purple-500 hover:bg-purple-50', // CAN Kitchen
               'hover:border-blue-500 hover:bg-blue-50',     // LA3S
-              'hover:border-orange-500 hover:bg-orange-50'  // Salesforce Dashboard
+              'hover:border-orange-500 hover:bg-orange-50', // Salesforce Dashboard
+              'hover:border-green-500 hover:bg-green-50',   // Deloitte AI Showcase
+              'hover:border-indigo-500 hover:bg-indigo-50', // LaunchPlan
+              'hover:border-violet-500 hover:bg-violet-50', // Astronaut
             ];
             
             return (
@@ -303,7 +361,7 @@ const Projects = () => {
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                         </svg>
-                        VISIT WEBSITE
+                        {project.websiteLabel || 'VISIT WEBSITE'}
                       </a>
                     )}
                   </div>

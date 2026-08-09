@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Advisory Capabilities — Prototype Showcase</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --blue-dark: #1e3a8a;
+    --teal: #0d9488;
+    --teal-light: #f0fdfa;
+    --teal-dark: #134e4a;
+    --violet: #7c3aed;
+    --violet-light: #f5f3ff;
+    --violet-dark: #3b0764;
+
+    --good: #16a34a;
+    --good-bg: #f0fdf4;
+    --warn: #d97706;
+    --warn-bg: #fffbeb;
+    --risk: #dc2626;
+    --risk-bg: #fef2f2;
+    --info: #0369a1;
+    --info-bg: #f0f9ff;
+
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: white;
+    padding: 40px 32px 36px;
+    border-bottom: 3px solid #2563eb;
+  }
+  .site-header .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #93c5fd;
+    margin-bottom: 10px;
+  }
+  .site-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -.02em;
+  }
+  .site-header p {
+    font-size: 15px;
+    color: #94a3b8;
+    max-width: 640px;
+  }
+  .header-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,.15);
+    color: #cbd5e1;
+    letter-spacing: .04em;
+  }
+
+  /* ── TABS ── */
+  .tab-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 0;
+    padding: 0 32px;
+    overflow-x: auto;
+    box-shadow: var(--shadow);
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 16px 20px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color .15s, border-color .15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tab-btn .tab-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background .15s;
+  }
+  .tab-btn.active[data-tab="techscan"] { color: var(--blue); border-bottom-color: var(--blue); }
+  .tab-btn.active[data-tab="techscan"] .tab-dot { background: var(--blue); }
+  .tab-btn.active[data-tab="compass"] { color: var(--teal); border-bottom-color: var(--teal); }
+  .tab-btn.active[data-tab="compass"] .tab-dot { background: var(--teal); }
+  .tab-btn.active[data-tab="pulse"] { color: var(--violet); border-bottom-color: var(--violet); }
+  .tab-btn.active[data-tab="pulse"] .tab-dot { background: var(--violet); }
+
+  /* ── CONTENT ── */
+  .tab-panel { display: none; padding: 32px; max-width: 1200px; margin: 0 auto; }
+  .tab-panel.active { display: block; }
+
+  /* ── SCENARIO BANNER ── */
+  .scenario-banner {
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    border-left: 4px solid;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+  }
+  .scenario-banner.blue { background: var(--blue-light); border-color: var(--blue); }
+  .scenario-banner.teal { background: var(--teal-light); border-color: var(--teal); }
+  .scenario-banner.violet { background: var(--violet-light); border-color: var(--violet); }
+  .scenario-banner .icon { font-size: 28px; }
+  .scenario-banner .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .scenario-banner.blue .label { color: var(--blue); }
+  .scenario-banner.teal .label { color: var(--teal); }
+  .scenario-banner.violet .label { color: var(--violet); }
+  .scenario-banner h2 { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+  .scenario-banner p { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+  .scenario-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 100px;
+  }
+  .scenario-banner.blue .scenario-tag { background: #bfdbfe; color: var(--blue-dark); }
+  .scenario-banner.teal .scenario-tag { background: #99f6e4; color: var(--teal-dark); }
+  .scenario-banner.violet .scenario-tag { background: #ddd6fe; color: var(--violet-dark); }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 20px;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .card-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ── STAT TILE ── */
+  .stat-value {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1;
+    margin: 8px 0 4px;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .stat-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 6px;
+    padding: 2px 7px;
+    border-radius: 100px;
+  }
+  .delta-risk { background: var(--risk-bg); color: var(--risk); }
+  .delta-good { background: var(--good-bg); color: var(--good); }
+  .delta-warn { background: var(--warn-bg); color: var(--warn); }
+  .delta-info { background: var(--info-bg); color: var(--info); }
+
+  /* ── SCORE RING ── */
+  .score-ring-wrap {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 8px 0;
+  }
+  .score-ring-labels { flex: 1; }
+  .score-ring-labels .score-big {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -.04em;
+    line-height: 1;
+  }
+  .score-ring-labels .score-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .score-ring-labels .score-verdict {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 100px;
+    display: inline-block;
+  }
+
+  /* ── RISK ITEMS ── */
+  .risk-list { display: flex; flex-direction: column; gap: 10px; }
+  .risk-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .risk-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .risk-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .risk-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .risk-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 100px;
+    margin-left: auto;
+    flex-shrink: 0;
+    letter-spacing: .04em;
+  }
+  .risk-critical { background: var(--risk-bg); color: var(--risk); }
+  .risk-medium { background: var(--warn-bg); color: var(--warn); }
+  .risk-low { background: var(--good-bg); color: var(--good); }
+
+  /* ── PROGRESS BAR ── */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .progress-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    width: 180px;
+    flex-shrink: 0;
+  }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--bg);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width .6s ease;
+  }
+  .progress-pct {
+    font-size: 12px;
+    font-weight: 700;
+    width: 36px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── DIMENSION TABLE ── */
+  .dim-table { width: 100%; }
+  .dim-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .dim-row:last-child { border-bottom: none; }
+  .dim-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+  .dim-score {
+    font-size: 13px;
+    font-weight: 700;
+    width: 40px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px 6px;
+  }
+  .dim-target { font-size: 11px; color: var(--text-muted); }
+
+  /* ── INITIATIVE CARDS ── */
+  .initiative-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .initiative-card .priority {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .priority-1 { color: var(--risk); }
+  .priority-2 { color: var(--warn); }
+  .priority-3 { color: var(--info); }
+  .initiative-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .initiative-card p { font-size: 12px; color: var(--text-secondary); }
+  .initiative-card .est {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    gap: 12px;
+  }
+
+  /* ── MILESTONE LIST ── */
+  .milestone-list { display: flex; flex-direction: column; gap: 0; }
+  .milestone-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .milestone-item:last-child { border-bottom: none; }
+  .ms-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .ms-done { background: var(--good); }
+  .ms-active { background: var(--blue); box-shadow: 0 0 0 3px #bfdbfe; }
+  .ms-blocked { background: var(--risk); }
+  .ms-upcoming { background: var(--border); }
+  .ms-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .ms-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .ms-status {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 100px;
+    flex-shrink: 0;
+  }
+  .ms-status.done { background: var(--good-bg); color: var(--good); }
+  .ms-status.active { background: var(--info-bg); color: var(--info); }
+  .ms-status.blocked { background: var(--risk-bg); color: var(--risk); }
+  .ms-status.upcoming { background: var(--bg); color: var(--text-muted); }
+
+  /* ── INSIGHT BOX ── */
+  .insight-box {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 16px;
+  }
+  .insight-box .insight-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .insight-box p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .insight-box strong { color: var(--text-primary); }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    margin-top: 48px;
+    padding: 24px 32px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 12px;
+  }
+  .site-footer p { font-size: 12px; color: var(--text-muted); }
+  .site-footer .built-with {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* chart container */
+  .chart-wrap { position: relative; }
+  .chart-wrap canvas { max-width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="eyebrow">AI Advisory · Capability Showcase</div>
+  <h1>Three Agentic Workflows for Consulting</h1>
+  <p>Prototype demonstrations of how Claude Code accelerates client advisory work — from M&A tech diligence to AI readiness assessments to program execution intelligence.</p>
+  <div class="header-badges">
+    <span class="badge">Claude Code</span>
+    <span class="badge">MCP Integration</span>
+    <span class="badge">Agentic Workflows</span>
+    <span class="badge">Human-in-the-Loop</span>
+  </div>
+</header>
+
+<!-- TAB BAR -->
+<nav class="tab-bar">
+  <button class="tab-btn active" data-tab="techscan" onclick="switchTab('techscan')">
+    <span class="tab-dot"></span>TechScan — M&amp;A Tech Due Diligence
+  </button>
+  <button class="tab-btn" data-tab="compass" onclick="switchTab('compass')">
+    <span class="tab-dot"></span>AI Compass — Readiness Assessment
+  </button>
+  <button class="tab-btn" data-tab="pulse" onclick="switchTab('pulse')">
+    <span class="tab-dot"></span>ProgramPulse — Execution Intelligence
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     DEMO 1: TechScan — M&A Tech Due Diligence
+══════════════════════════════════════════════ -->
+<div class="tab-panel active" id="panel-techscan">
+
+  <div class="scenario-banner blue">
+    <span class="icon">🔍</span>
+    <div>
+      <div class="label">Scenario · M&amp;A Technology Assessment</div>
+      <h2>NovaPay Financial — Technology Due Diligence</h2>
+      <p>Apex Partners (PE) acquiring B2B payments fintech. 6-week DD window. Claude Code reads target's repos, architecture docs, and vendor contracts — outputs a structured tech assessment in hours, not weeks.</p>
+    </div>
+    <span class="scenario-tag">PE / M&amp;A</span>
+  </div>
+
+  <!-- Stat tiles -->
+  <div class="grid-4">
+    <div class="card">
+      <div class="card-title">Overall Tech Score</div>
+      <div class="stat-value" style="color:#2563eb">67<span style="font-size:20px;font-weight:400;color:#94a3b8">/100</span></div>
+      <div class="stat-label">Moderate technical health</div>
+      <span class="stat-delta delta-warn">⚠ Acquirable with conditions</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Repos Analyzed</div>
+      <div class="stat-value">847</div>
+      <div class="stat-label">across 12 engineering teams</div>
+      <span class="stat-delta delta-info">↗ 3 core platform repos</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Critical Risk Flags</div>
+      <div class="stat-value" style="color:#dc2626">12</div>
+      <div class="stat-label">requiring remediation</div>
+      <span class="stat-delta delta-risk">▲ 4 blocking integration</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Test Coverage</div>
+      <div class="stat-value" style="color:#d97706">34<span style="font-size:20px;font-weight:400;color:#94a3b8">%</span></div>
+      <div class="stat-label">core payment paths only</div>
+      <span class="stat-delta delta-warn">Below 60% threshold</span>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Tech Debt Breakdown -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Technical Debt by Category</div>
+          <div class="card-sub">Remediation effort estimate (person-weeks)</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="techDebtChart" height="220"></canvas>
+      </div>
+      <div class="insight-box">
+        <div class="insight-label">🤖 AI Finding</div>
+        <p>Legacy payment processor dependency (Worldline v4.2 SDK, EOL 2024) creates <strong>$2.1M estimated remediation cost</strong> and blocks integration with acquirer's modern settlement layer. Recommend escrow holdback pending resolution.</p>
+      </div>
+    </div>
+
+    <!-- Risk Summary -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Risk Register — Top Items</div>
+        <span class="stat-delta delta-risk">12 open</span>
+      </div>
+      <div class="risk-list">
+        <div class="risk-item" style="background:#fef2f2;border-color:#fecaca">
+          <span class="risk-icon">🔴</span>
+          <div>
+            <div class="risk-title">EOL Payment SDK Dependency</div>
+            <div class="risk-desc">Worldline v4.2 reached end-of-life Jan 2024. No migration path defined.</div>
+          </div>
+          <span class="risk-tag risk-critical">CRITICAL</span>
+        </div>
+        <div class="risk-item" style="background:#fef2f2;border-color:#fecaca">
+          <span class="risk-icon">🔴</span>
+          <div>
+            <div class="risk-title">No Secrets Rotation Policy</div>
+            <div class="risk-desc">142 hardcoded API keys found across 3 repos. PCI-DSS violation risk.</div>
+          </div>
+          <span class="risk-tag risk-critical">CRITICAL</span>
+        </div>
+        <div class="risk-item" style="background:#fffbeb;border-color:#fde68a">
+          <span class="risk-icon">🟡</span>
+          <div>
+            <div class="risk-title">Monolithic Architecture</div>
+            <div class="risk-desc">Core platform is a single 340k-LOC service. Decomposition required for scale.</div>
+          </div>
+          <span class="risk-tag risk-medium">MEDIUM</span>
+        </div>
+        <div class="risk-item" style="background:#fffbeb;border-color:#fde68a">
+          <span class="risk-icon">🟡</span>
+          <div>
+            <div class="risk-title">Undocumented Vendor Lock-in</div>
+            <div class="risk-desc">3 proprietary integrations with no SLA or exit clause in contracts.</div>
+          </div>
+          <span class="risk-tag risk-medium">MEDIUM</span>
+        </div>
+        <div class="risk-item" style="background:#f0fdf4;border-color:#bbf7d0">
+          <span class="risk-icon">🟢</span>
+          <div>
+            <div class="risk-title">Cloud Infrastructure</div>
+            <div class="risk-desc">Well-architected AWS deployment. Multi-region, IaC managed via Terraform.</div>
+          </div>
+          <span class="risk-tag risk-low">STRENGTH</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Stack Health -->
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Technology Stack Health Index</div>
+        <div class="card-sub">Scored 0–100 across six dimensions · Generated from automated codebase + dependency analysis</div>
+      </div>
+    </div>
+    <div style="padding: 8px 0">
+      <div class="progress-row">
+        <span class="progress-label">Cloud & Infrastructure</span>
+        <div class="progress-track"><div class="progress-fill" style="width:82%;background:#2563eb"></div></div>
+        <span class="progress-pct" style="color:#2563eb">82</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">API Standardization</span>
+        <div class="progress-track"><div class="progress-fill" style="width:61%;background:#0d9488"></div></div>
+        <span class="progress-pct" style="color:#0d9488">61</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Security Posture</span>
+        <div class="progress-track"><div class="progress-fill" style="width:44%;background:#d97706"></div></div>
+        <span class="progress-pct" style="color:#d97706">44</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Test Coverage</span>
+        <div class="progress-track"><div class="progress-fill" style="width:34%;background:#dc2626"></div></div>
+        <span class="progress-pct" style="color:#dc2626">34</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Documentation</span>
+        <div class="progress-track"><div class="progress-fill" style="width:38%;background:#dc2626"></div></div>
+        <span class="progress-pct" style="color:#dc2626">38</span>
+      </div>
+      <div class="progress-row" style="margin-bottom:0">
+        <span class="progress-label">Dependency Health</span>
+        <div class="progress-track"><div class="progress-fill" style="width:57%;background:#d97706"></div></div>
+        <span class="progress-pct" style="color:#d97706">57</span>
+      </div>
+    </div>
+    <div class="insight-box">
+      <div class="insight-label">📋 DD Recommendation</div>
+      <p>Acquirable at proposed valuation with a <strong>$3.8M remediation escrow</strong> and 18-month post-close engineering plan. Security and test coverage are the critical path items. Cloud infrastructure is a genuine strength — acquisition preserves AWS investments.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     DEMO 2: AI Compass — Readiness Assessment
+══════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-compass">
+
+  <div class="scenario-banner teal">
+    <span class="icon">🧭</span>
+    <div>
+      <div class="label">Scenario · AI Strategy Assessment</div>
+      <h2>FirstMeridian Financial — AI Readiness Assessment</h2>
+      <p>Regional bank ($42B AUM) wants to deploy AI across operations, customer service, and risk. Claude Code interviews 18 stakeholders, benchmarks against peer institutions, and produces a prioritized roadmap — in weeks, not quarters.</p>
+    </div>
+    <span class="scenario-tag">Financial Services</span>
+  </div>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="card-title">Overall Readiness</div>
+      <div class="stat-value" style="color:#0d9488">48<span style="font-size:20px;font-weight:400;color:#94a3b8">/100</span></div>
+      <div class="stat-label">Early adopter stage</div>
+      <span class="stat-delta delta-warn">⚠ Foundation gaps</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Peer Benchmark</div>
+      <div class="stat-value">-22<span style="font-size:20px;font-weight:400;color:#94a3b8">pts</span></div>
+      <div class="stat-label">vs regional bank avg (70)</div>
+      <span class="stat-delta delta-risk">Below industry median</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Quick Win Use Cases</div>
+      <div class="stat-value">7</div>
+      <div class="stat-label">deployable in 90 days</div>
+      <span class="stat-delta delta-good">✓ Low effort, high value</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Est. Value at Stake</div>
+      <div class="stat-value">$31<span style="font-size:20px;font-weight:400;color:#94a3b8">M</span></div>
+      <div class="stat-label">annual ops efficiency</div>
+      <span class="stat-delta delta-info">3-year horizon</span>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Radar Chart -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Readiness Dimensions</div>
+          <div class="card-sub">Current state vs. target state (18-month)</div>
+        </div>
+        <div style="display:flex;gap:12px;font-size:11px;color:#475569;align-items:center">
+          <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:3px;background:#f97316;display:inline-block;border-radius:2px"></span>Current</span>
+          <span style="display:inline-flex;align-items:center;gap:4px"><span style="width:10px;height:3px;background:#0d9488;display:inline-block;border-radius:2px"></span>Target</span>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="radarChart" height="280"></canvas>
+      </div>
+    </div>
+
+    <!-- Dimension Scores -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Dimension Scoring</div>
+        <div class="card-sub">Current / Target</div>
+      </div>
+      <div class="dim-table">
+        <div class="dim-row">
+          <span class="dim-name">📦 Data Infrastructure</span>
+          <span class="dim-score" style="background:#fef2f2;color:#dc2626">42</span>
+          <span class="dim-target">→ 80</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">⚖️ AI Governance</span>
+          <span class="dim-score" style="background:#fef2f2;color:#dc2626">28</span>
+          <span class="dim-target">→ 75</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">👥 Talent &amp; Skills</span>
+          <span class="dim-score" style="background:#fffbeb;color:#d97706">55</span>
+          <span class="dim-target">→ 70</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">🖥️ Technology Stack</span>
+          <span class="dim-score" style="background:#fffbeb;color:#d97706">61</span>
+          <span class="dim-target">→ 85</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">🎯 Use Case Pipeline</span>
+          <span class="dim-score" style="background:#f0fdf4;color:#16a34a">68</span>
+          <span class="dim-target">→ 80</span>
+        </div>
+        <div class="dim-row">
+          <span class="dim-name">🔄 Change Readiness</span>
+          <span class="dim-score" style="background:#fef2f2;color:#dc2626">34</span>
+          <span class="dim-target">→ 70</span>
+        </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-label">🤖 Key Finding</div>
+        <p>Governance and Change Readiness are the critical constraints — not technology. FirstMeridian has the infrastructure to run AI but lacks the <strong>operating model to govern and adopt it</strong>. Recommend leading with governance framework before expanding use cases.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Priority Initiatives -->
+  <div class="grid-3">
+    <div class="initiative-card">
+      <div class="priority priority-1">▲ Priority 1 — Foundational</div>
+      <h4>AI Governance Framework</h4>
+      <p>Model risk policy, bias monitoring, human review thresholds for regulated decisions. Prerequisite for all other initiatives.</p>
+      <div class="est">
+        <span>⏱ 10 weeks</span>
+        <span>💰 $280K</span>
+        <span>🧩 Risk + Compliance</span>
+      </div>
+    </div>
+    <div class="initiative-card">
+      <div class="priority priority-1">▲ Priority 1 — Quick Win</div>
+      <h4>Loan Document Extraction</h4>
+      <p>AI-assisted extraction from mortgage applications reduces processing time 60%. $4.2M annual value. Proven technology, low regulatory risk.</p>
+      <div class="est">
+        <span>⏱ 6 weeks</span>
+        <span>💰 $180K</span>
+        <span>🧩 Lending Operations</span>
+      </div>
+    </div>
+    <div class="initiative-card">
+      <div class="priority priority-2">◆ Priority 2 — High Value</div>
+      <h4>Customer Service Agent Assist</h4>
+      <p>AI co-pilot for call center agents. Real-time suggestions, next-best-action, knowledge retrieval. 35% handle time reduction.</p>
+      <div class="est">
+        <span>⏱ 16 weeks</span>
+        <span>💰 $620K</span>
+        <span>🧩 Retail Banking</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">18-Month Investment Roadmap</div>
+      <div class="card-sub">Phased rollout by dimension priority</div>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="roadmapChart" height="120"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     DEMO 3: ProgramPulse — Execution Intelligence
+══════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-pulse">
+
+  <div class="scenario-banner violet">
+    <span class="icon">⚡</span>
+    <div>
+      <div class="label">Scenario · Program Execution Intelligence</div>
+      <h2>Vantage Insurance — Cloud Migration Program</h2>
+      <p>18-month program migrating 420 applications to AWS. Execution state lives across Jira, ServiceNow, Excel, and CMDB. ProgramPulse unifies it into a single intelligence layer — the same pattern as Astronaut, generalized for any client program.</p>
+    </div>
+    <span class="scenario-tag">Technology & Transformation</span>
+  </div>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="card-title">Applications Migrated</div>
+      <div class="stat-value" style="color:#7c3aed">247<span style="font-size:16px;font-weight:400;color:#94a3b8"> / 420</span></div>
+      <div class="stat-label">59% complete</div>
+      <span class="stat-delta delta-info">↗ +18 this week</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Active Blockers</div>
+      <div class="stat-value" style="color:#dc2626">34</div>
+      <div class="stat-label">across 6 workstreams</div>
+      <span class="stat-delta delta-risk">▲ 8 added this week</span>
+    </div>
+    <div class="card">
+      <div class="card-title">On-Time Forecast</div>
+      <div class="stat-value" style="color:#d97706">72<span style="font-size:20px;font-weight:400;color:#94a3b8">%</span></div>
+      <div class="stat-label">of milestones on track</div>
+      <span class="stat-delta delta-warn">▼ Down from 81%</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Avg Days Stalled</div>
+      <div class="stat-value">8.4</div>
+      <div class="stat-label">per blocked workstream</div>
+      <span class="stat-delta delta-risk">Threshold: 5 days</span>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Blockers Chart -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Active Blockers by Workstream</div>
+          <div class="card-sub">Grouped by category: Technical · Process · Dependency</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="blockersChart" height="240"></canvas>
+      </div>
+      <div class="insight-box">
+        <div class="insight-label">🤖 AI Blocker Analysis</div>
+        <p>Application workstream blockers are dominated by <strong>undocumented dependencies</strong> (14 of 28). Pattern suggests missing intake questionnaire step — recommend adding discovery gate before wave scheduling. Could eliminate 40% of current blockers.</p>
+      </div>
+    </div>
+
+    <!-- Milestone Status -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Milestone Tracker</div>
+        <div class="card-sub">Q3 2026 delivery plan</div>
+      </div>
+      <div class="milestone-list">
+        <div class="milestone-item">
+          <span class="ms-dot ms-done"></span>
+          <div>
+            <div class="ms-name">Wave 1 — Non-Production Apps</div>
+            <div class="ms-meta">Completed Jun 14 · 68 apps · 3 exceptions</div>
+          </div>
+          <span class="ms-status done">DONE</span>
+        </div>
+        <div class="milestone-item">
+          <span class="ms-dot ms-done"></span>
+          <div>
+            <div class="ms-name">Security Baseline Validation</div>
+            <div class="ms-meta">Completed Jul 1 · All controls passing</div>
+          </div>
+          <span class="ms-status done">DONE</span>
+        </div>
+        <div class="milestone-item">
+          <span class="ms-dot ms-active"></span>
+          <div>
+            <div class="ms-name">Wave 2 — Tier 2 Business Apps</div>
+            <div class="ms-meta">In progress · 147 of 180 apps migrated</div>
+          </div>
+          <span class="ms-status active">IN FLIGHT</span>
+        </div>
+        <div class="milestone-item">
+          <span class="ms-dot ms-blocked"></span>
+          <div>
+            <div class="ms-name">Wave 3 — Core Policy Systems</div>
+            <div class="ms-meta">Blocked · 3 dependency issues unresolved</div>
+          </div>
+          <span class="ms-status blocked">BLOCKED</span>
+        </div>
+        <div class="milestone-item">
+          <span class="ms-dot ms-upcoming"></span>
+          <div>
+            <div class="ms-name">Wave 4 — Claims &amp; Billing</div>
+            <div class="ms-meta">Scheduled Sep 15 · Planning in progress</div>
+          </div>
+          <span class="ms-status upcoming">UPCOMING</span>
+        </div>
+        <div class="milestone-item">
+          <span class="ms-dot ms-upcoming"></span>
+          <div>
+            <div class="ms-name">Go-Live: All Production Systems</div>
+            <div class="ms-meta">Target Dec 1 · At risk if Wave 3 slips</div>
+          </div>
+          <span class="ms-status upcoming">AT RISK</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Execution Health Over Time -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Execution Velocity — Last 12 Weeks</div>
+        <div class="card-sub">Apps migrated per week vs. target pace</div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="velocityChart" height="130"></canvas>
+    </div>
+    <div class="insight-box">
+      <div class="insight-label">⚡ Program Intelligence</div>
+      <p>Velocity dropped 34% in weeks 9–11 coinciding with Wave 3 dependency issues. At current pace, <strong>Dec 1 go-live is at risk by ~3 weeks</strong>. Recommended action: escalate Wave 3 blockers to Vendor Management by Aug 15 to preserve timeline. Owner: Patricia Walsh (Cloud Program Director).</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>Prototype showcase · Mock data · All company names fictional · Scenarios based on real consulting engagement patterns</p>
+  <div class="built-with">
+    🪖 Built with Claude Code &nbsp;·&nbsp; Demonstrates agentic workflow prototyping for consulting contexts
+  </div>
+</footer>
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  if (!window._chartsRendered) return;
+}
+
+// ── CHART DEFAULTS ──
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#64748b';
+Chart.defaults.plugins.legend.display = false;
+Chart.defaults.plugins.tooltip.backgroundColor = '#0f172a';
+Chart.defaults.plugins.tooltip.titleColor = '#f1f5f9';
+Chart.defaults.plugins.tooltip.bodyColor = '#94a3b8';
+Chart.defaults.plugins.tooltip.padding = 10;
+Chart.defaults.plugins.tooltip.cornerRadius = 8;
+Chart.defaults.plugins.tooltip.displayColors = true;
+
+// ── DEMO 1: Tech Debt Horizontal Bar ──
+new Chart(document.getElementById('techDebtChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Legacy Dependencies', 'Security Debt', 'Documentation Gaps', 'Test Coverage Gaps', 'API Inconsistencies', 'Cloud Migration Debt'],
+    datasets: [{
+      data: [34, 28, 22, 19, 15, 12],
+      backgroundColor: ['#dc2626', '#dc2626', '#d97706', '#d97706', '#0d9488', '#2563eb'],
+      borderRadius: 4,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.parsed.x} person-weeks to remediate`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: '#f1f5f9' },
+        border: { display: false },
+        ticks: { color: '#94a3b8' },
+        title: { display: true, text: 'Remediation effort (person-weeks)', color: '#94a3b8', font: { size: 11 } }
+      },
+      y: {
+        grid: { display: false },
+        border: { display: false },
+        ticks: { color: '#475569', font: { size: 12 } }
+      }
+    }
+  }
+});
+
+// ── DEMO 2: Radar ──
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Data Infrastructure', 'AI Governance', 'Talent & Skills', 'Technology Stack', 'Use Case Pipeline', 'Change Readiness'],
+    datasets: [
+      {
+        label: 'Current State',
+        data: [42, 28, 55, 61, 68, 34],
+        backgroundColor: 'rgba(249,115,22,.12)',
+        borderColor: '#f97316',
+        borderWidth: 2,
+        pointBackgroundColor: '#f97316',
+        pointRadius: 4,
+      },
+      {
+        label: 'Target (18 months)',
+        data: [80, 75, 70, 85, 80, 70],
+        backgroundColor: 'rgba(13,148,136,.1)',
+        borderColor: '#0d9488',
+        borderWidth: 2,
+        borderDash: [5, 3],
+        pointBackgroundColor: '#0d9488',
+        pointRadius: 4,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: { color: '#475569', boxWidth: 12, padding: 16, font: { size: 12 } }
+      }
+    },
+    scales: {
+      r: {
+        min: 0, max: 100,
+        grid: { color: '#e2e8f0' },
+        angleLines: { color: '#e2e8f0' },
+        ticks: {
+          stepSize: 25,
+          color: '#94a3b8',
+          backdropColor: 'transparent',
+          font: { size: 10 }
+        },
+        pointLabels: { color: '#475569', font: { size: 12, weight: '500' } }
+      }
+    }
+  }
+});
+
+// ── DEMO 2: Roadmap stacked bar ──
+new Chart(document.getElementById('roadmapChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Q3 2026', 'Q4 2026', 'Q1 2027', 'Q2 2027'],
+    datasets: [
+      { label: 'Governance', data: [280, 0, 0, 0], backgroundColor: '#dc2626', borderRadius: 4, borderSkipped: false },
+      { label: 'Quick Wins', data: [180, 200, 0, 0], backgroundColor: '#d97706', borderRadius: 4, borderSkipped: false },
+      { label: 'Core AI Platform', data: [0, 420, 380, 0], backgroundColor: '#0d9488', borderRadius: 4, borderSkipped: false },
+      { label: 'Scale & Optimize', data: [0, 0, 180, 340], backgroundColor: '#7c3aed', borderRadius: 4, borderSkipped: false },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: { color: '#475569', boxWidth: 12, padding: 16, font: { size: 12 } }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y}K`
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+        grid: { display: false },
+        border: { display: false },
+        ticks: { color: '#475569' }
+      },
+      y: {
+        stacked: true,
+        grid: { color: '#f1f5f9' },
+        border: { display: false },
+        ticks: {
+          color: '#94a3b8',
+          callback: v => `$${v}K`
+        },
+        title: { display: true, text: 'Investment ($K)', color: '#94a3b8', font: { size: 11 } }
+      }
+    }
+  }
+});
+
+// ── DEMO 3: Blockers by Workstream ──
+new Chart(document.getElementById('blockersChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Applications', 'Data Migration', 'Infrastructure', 'Security', 'Vendor Deps', 'Network'],
+    datasets: [
+      { label: 'Technical', data: [14, 8, 7, 3, 2, 1], backgroundColor: '#2563eb', borderRadius: [0,0,4,4], borderSkipped: false },
+      { label: 'Process', data: [8, 5, 3, 4, 6, 2], backgroundColor: '#7c3aed', borderRadius: [0,0,0,0], borderSkipped: false },
+      { label: 'Dependency', data: [6, 6, 2, 1, 7, 1], backgroundColor: '#0d9488', borderRadius: [4,4,0,0], borderSkipped: false },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: { color: '#475569', boxWidth: 12, padding: 16, font: { size: 12 } }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+        grid: { display: false },
+        border: { display: false },
+        ticks: { color: '#475569' }
+      },
+      y: {
+        stacked: true,
+        grid: { color: '#f1f5f9' },
+        border: { display: false },
+        ticks: { color: '#94a3b8', stepSize: 5 },
+        title: { display: true, text: 'Open blockers', color: '#94a3b8', font: { size: 11 } }
+      }
+    }
+  }
+});
+
+// ── DEMO 3: Velocity Line ──
+new Chart(document.getElementById('velocityChart'), {
+  type: 'line',
+  data: {
+    labels: ['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8','Wk 9','Wk 10','Wk 11','Wk 12'],
+    datasets: [
+      {
+        label: 'Target pace',
+        data: [22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+        borderColor: '#e2e8f0',
+        borderWidth: 2,
+        borderDash: [6, 4],
+        pointRadius: 0,
+        fill: false,
+        tension: 0,
+      },
+      {
+        label: 'Actual migrations',
+        data: [19, 24, 26, 21, 23, 25, 22, 24, 14, 12, 11, 18],
+        borderColor: '#7c3aed',
+        backgroundColor: 'rgba(124,58,237,.08)',
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: ctx => {
+          const v = ctx.parsed.y;
+          return v < 15 ? '#dc2626' : v < 20 ? '#d97706' : '#7c3aed';
+        },
+        pointBorderColor: 'white',
+        pointBorderWidth: 2,
+        fill: true,
+        tension: 0.3,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: { color: '#475569', boxWidth: 12, padding: 16, font: { size: 12 } }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} apps`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        border: { display: false },
+        ticks: { color: '#94a3b8' }
+      },
+      y: {
+        grid: { color: '#f1f5f9' },
+        border: { display: false },
+        ticks: { color: '#94a3b8' },
+        title: { display: true, text: 'Apps migrated / week', color: '#94a3b8', font: { size: 11 } }
+      }
+    }
+  }
+});
+
+window._chartsRendered = true;
+</script>
+</body>
+</html>
