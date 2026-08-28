@@ -5,3 +5,94 @@
 html {
   scroll-behavior: smooth;
 }
+
+.career-mindmap {
+  background-image: radial-gradient(#c9c5bb 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.career-branch {
+  position: relative;
+  border: 3px solid #000;
+  box-shadow: 5px 5px 0 #000;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.career-branch:hover {
+  transform: translateY(-2px);
+  box-shadow: 7px 7px 0 #000;
+}
+
+.career-role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 2px solid #d1d5db;
+  background: #fff;
+  padding: 7px 9px;
+  color: #111;
+  font-size: 12px;
+  font-weight: 800;
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+
+.career-role-chip small {
+  color: #9ca3af;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.career-role-chip:hover,
+.career-role-chip:focus-visible,
+.career-role-chip-active {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+  outline: none;
+}
+
+.career-role-chip-active small,
+.career-role-chip:hover small {
+  color: #facc15;
+}
+
+.career-center {
+  box-shadow: 0 0 0 8px #facc15, 0 0 0 12px #000;
+}
+
+@media (min-width: 1280px) {
+  .career-branch-left::after,
+  .career-branch-right::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 36px;
+    height: 3px;
+    background: #000;
+  }
+
+  .career-branch-left::after { right: -39px; }
+  .career-branch-right::before { left: -39px; }
+}
+
+@media (max-width: 639px) {
+  .career-mindmap {
+    background-size: 18px 18px;
+  }
+
+  .career-branch {
+    box-shadow: 4px 4px 0 #000;
+  }
+
+  .career-role-chip {
+    flex: 1 1 calc(50% - 4px);
+    justify-content: space-between;
+    min-width: 0;
+  }
+
+  .career-center {
+    max-width: 220px;
+    padding: 24px;
+    box-shadow: 0 0 0 6px #facc15, 0 0 0 9px #000;
+  }
+}
