@@ -128,10 +128,12 @@ const About = () => {
                 </p>
 
                 <p>
-                  Now at Visa, I'm architecting AI-native agentic workflows for global payments
-                  infrastructure across 200+ countries and $16T in annual volume — building the systems
-                  that let countries like Venezuela participate in the global financial system from the
-                  ground up. The UN Ambassador goal hasn't changed; the path just got a lot more concrete.
+                  Now at Monitor Deloitte, I'm working on technology strategy for large enterprises —
+                  figuring out where AI, platform modernization, and digital transformation actually
+                  intersect with how organizations run. The work looks different from payments
+                  infrastructure, but the conviction is the same: technology should work better for
+                  more people. The UN Ambassador goal hasn't changed; the path just keeps getting
+                  more interesting.
                 </p>
               </div>
             </div>
