@@ -14,7 +14,8 @@ type ExperienceItem = {
 };
 
 const experiences: ExperienceItem[] = [
-  { role: 'Associate Technical Product Manager', company: 'Visa', location: 'Denver, CO · Hybrid', period: '2026 — Present', discipline: 'AI Product · Payments', chapter: 'OPERATING AT GLOBAL SCALE', thesis: 'Architecting AI-native workflows for the infrastructure behind global commerce.', impact: ['$16.1T in annual payment volume across 200+ countries', 'Governance, observability, and operational readiness for platform programs'], accent: 'bg-blue-600', logo: visaLogo },
+  { role: 'Technology Strategy Analyst', company: 'Monitor Deloitte', location: 'New York, NY · Hybrid', period: 'Sep 2026 — Present', discipline: 'Technology Strategy', chapter: 'OPERATING AT GLOBAL SCALE', thesis: 'Helping large organizations figure out where AI actually fits—and building the roadmap to get there.', impact: ['Tech & data strategy, architecture, and resiliency engineering for a life sciences & healthcare client', 'Strategy & Transactions practice · Monitor Deloitte'], accent: 'bg-green-700', logo: deloitteLogo },
+  { role: 'Associate Technical Product Manager', company: 'Visa', location: 'Denver, CO · Hybrid', period: 'Jan 2026 — Sep 2026', discipline: 'AI Product · Payments', chapter: 'OPERATING AT GLOBAL SCALE', thesis: 'Architecting AI-native workflows for the infrastructure behind global commerce.', impact: ['$16.1T in annual payment volume across 200+ countries', 'Governance, observability, and operational readiness for platform programs'], accent: 'bg-blue-600', logo: visaLogo },
   { role: 'Claude Builder Ambassador', company: 'Anthropic', location: 'Austin, TX', period: 'Aug — Nov 2025', discipline: 'AI Adoption', chapter: 'MAKING AI USEFUL', thesis: 'Built a campus community around practical AI literacy and responsible creation.', impact: ["Founded and scaled UT's Claude Builder club for developers and researchers"], accent: 'bg-orange-500', logo: anthropicLogo },
   { role: 'Teaching Assistant', company: 'UT Austin', location: 'Austin, TX', period: 'Aug — Dec 2025', discipline: 'Technical Education', chapter: 'MAKING AI USEFUL', thesis: 'Turned full-stack concepts into practical skills for the next cohort of builders.', impact: ['Mentored 15+ students across React, Node.js, databases, and code reviews'], accent: 'bg-purple-600', logo: utAustinLogo },
   { role: 'Product Manager Intern, AI/ML Platform', company: 'Yahoo!', location: 'Remote', period: 'Jun — Aug 2025', discipline: 'AI Product', chapter: 'MAKING AI USEFUL', thesis: 'Translated multilingual ML research into a product built for international markets.', impact: ['700K+ users reached · $35K monthly revenue opportunity', 'Roadmap and PRDs for models processing 19M+ emails daily'], accent: 'bg-violet-600', logo: yahooLogo },
@@ -33,10 +34,10 @@ const signals = [
 ];
 
 const expertise = [
-  { title: 'AI PRODUCT', note: 'Turning emerging technology into useful products', color: 'bg-blue-600', roles: [0, 1, 3] },
-  { title: 'SYSTEMS & ENGINEERING', note: 'Understanding how reliable technology gets built', color: 'bg-red-600', roles: [5, 7] },
-  { title: 'RESEARCH & TEACHING', note: 'Asking better questions and sharing what I learn', color: 'bg-yellow-500', roles: [2, 4] },
-  { title: 'STRATEGY & DELIVERY', note: 'Aligning people, priorities, and execution', color: 'bg-emerald-600', roles: [6, 8] },
+  { title: 'AI PRODUCT', note: 'Turning emerging technology into useful products', color: 'bg-blue-600', roles: [1, 2, 4] },
+  { title: 'SYSTEMS & ENGINEERING', note: 'Understanding how reliable technology gets built', color: 'bg-red-600', roles: [6, 8] },
+  { title: 'RESEARCH & TEACHING', note: 'Asking better questions and sharing what I learn', color: 'bg-yellow-500', roles: [3, 5] },
+  { title: 'STRATEGY & DELIVERY', note: 'Aligning people, priorities, and execution', color: 'bg-emerald-600', roles: [0, 7, 9] },
 ];
 
 const Experience = () => {
